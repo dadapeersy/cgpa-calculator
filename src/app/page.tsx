@@ -1,69 +1,85 @@
-import Image from "next/image";
+import CalculatorApp from "@/components/CalculatorApp";
+import UniversityLinks from "@/components/UniversityLinks";
+import HeroSection from "@/components/HeroSection";
+import HomeFAQSection from "@/components/HomeFAQSection";
+import HomeEditorialSection from "@/components/HomeEditorialSection";
+import AdUnit from "@/components/AdUnit";
+import { faqs } from "@/data/homeFaqs";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Free CGPA & SGPA Calculator for Engineering Students in India",
+  description: "Calculate your Engineering CGPA, SGPA, and Percentage instantly. Free, accurate, and university-specific calculators for VTU, Anna University, JNTUH, JNTUK, SPPU, KTU, and MAKAUT.",
+  keywords: "CGPA Calculator, SGPA Calculator, Engineering CGPA Calculator, CGPA to Percentage Calculator, SGPA to CGPA Calculator, How to Calculate CGPA, VTU CGPA Calculator, Anna University CGPA Calculator",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Free CGPA & SGPA Calculator for Engineering Students | CheckCGPA",
+    description: "Calculate your Engineering CGPA, SGPA, and Percentage instantly. Supports VTU, Anna University, JNTUH, JNTUK, SPPU, KTU, and MAKAUT.",
+    url: "/",
+    type: "website",
+  },
+  twitter: {
+    title: "Free CGPA & SGPA Calculator for Engineering Students | CheckCGPA",
+    description: "Calculate your Engineering CGPA, SGPA, and Percentage instantly. Supports VTU, Anna University, JNTUH, JNTUK, SPPU, KTU, and MAKAUT.",
+  },
+};
 
 export default function Home() {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://www.engineeringcgpa.com');
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Engineering CGPA Calculator",
+    "description": "Calculate your Engineering CGPA, SGPA, and Percentage across multiple universities.",
+    "url": `${baseUrl}/`,
+    "applicationCategory": "EducationalApplication"
+  };
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a
+      }
+    }))
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <article className="w-full flex flex-col items-center">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      
+      {/* The main calculator app, hero section is injected here */}
+      <CalculatorApp hero={<HeroSection />} />
+
+      {/* Middle Ad Slot (In-content) */}
+      <AdUnit adSlot="1234567890" className="my-2 sm:mt-8 sm:mb-4 max-w-4xl mx-auto" />
+
+      <section className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-3 sm:py-8 text-center">
+        <p className="text-base sm:text-lg text-foreground/70 leading-relaxed max-w-3xl mx-auto">
+          Free, accurate, and lightning-fast grade calculation. Compute your SGPA, track your CGPA, and convert to percentage using official university formulas — for VTU, Anna University, JNTUH, JNTUK, SPPU, KTU, and MAKAUT.
+        </p>
+      </section>
+      
+      <UniversityLinks />
+
+      <HomeEditorialSection />
+      
+      <HomeFAQSection />
+    </article>
   );
 }

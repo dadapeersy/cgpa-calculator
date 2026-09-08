@@ -2,25 +2,58 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #09090b;
+  
+  --primary: #09090b;
+  --primary-foreground: #ffffff;
+  
+  --surface: #ffffff;
+  --surface-border: #d4d4d8;
+  --surface-hover: #f4f4f5;
+  
+  --success: #0070f3;
+  --error: #e00;
+}
+
+.dark {
+  --background: #000000;
+  --foreground: #ffffff;
+  
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+  
+  --surface: #000000;
+  --surface-border: #333333;
+  --surface-hover: #111111;
+  
+  --success: #0070f3;
+  --error: #e00;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-surface: var(--surface);
+  --color-surface-border: var(--surface-border);
+  --color-surface-hover: var(--surface-hover);
+  --color-success: var(--success);
+  --color-error: var(--error);
+  
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.glass-card {
+  background-color: var(--surface);
+  border: 1px solid var(--surface-border);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
 }
